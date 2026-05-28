@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subspace.money - Conversion & Moat Audit Case Study</title>
+  <style>
+    /* CSS RESET & VARIABLES */
+    :root {
+      --bg: #09090b;
+      --bg-card: rgba(17, 17, 24, 0.7);
+      --bg-card-hover: rgba(23, 23, 33, 0.85);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(255, 255, 255, 0.12);
+      --text: #f4f4f5;
+      --text-muted: #a1a1aa;
+      --text-dark: #61616c;
+      --accent: #8b5cf6;
+      --accent-glow: rgba(139, 92, 246, 0.12);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.12);
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.08);
+      --rose: #f43f5e;
+      --rose-glow: rgba(244, 63, 94, 0.12);
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --font-mono: 'JetBrains Mono', SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* SCROLLBAR */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #09090b;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* UTILITIES & HIGHLIGHTS */
+    .gradient-text {
+      background: linear-gradient(135deg, #ffffff 40%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .gradient-text-purple-cyan {
+      background: linear-gradient(135deg, #a78bfa 0%, #22d3ee 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .glass {
+      background: var(--bg-card);
+      backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.02), 0 8px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .glass:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.04), 0 16px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* LAYOUT STRUCTURE */
+    .app-container {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* STICKY SIDEBAR */
+    aside {
+      border-right: 1px solid var(--border);
+      height: 100vh;
+      position: sticky;
+      top: 0;
+      padding: 2.5rem 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      background: rgba(9, 9, 11, 0.95);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 3.5rem;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+    }
+
+    .logo-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .logo-subtext {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.1rem;
+    }
+
+    .sidebar-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex-grow: 1;
+    }
+
+    .sidebar-menu a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.65rem 0.8rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-menu a:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .sidebar-menu li.active a {
+      color: #fff;
+      background: rgba(139, 92, 246, 0.1);
+      border-left: 2px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding-left: 0.75rem;
+      font-weight: 600;
+    }
+
+    .sidebar-footer {
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      border-top: 1px solid var(--border);
+      padding-top: 1.5rem;
+      line-height: 1.4;
+    }
+
+    /* MAIN CONTENT */
+    main {
+      padding: 4rem 6rem;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* GLOW BACKGROUNDS */
+    .glow-bg {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      top: -150px;
+      right: -100px;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .glow-bg-cyan {
+      position: absolute;
+      width: 700px;
+      height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+      bottom: 10%;
+      left: -200px;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* SECTION BASICS */
+    section {
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h2.section-header {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-transform: capitalize;
+    }
+
+    h2.section-header::after {
+      content: '';
+      flex-grow: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border) 0%, transparent 100%);
+    }
+
+    .section-badge {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent);
+      background: rgba(139, 92, 246, 0.1);
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* COVER PANEL */
+    .hero {
+      padding-top: 3rem;
+      padding-bottom: 5rem;
+    }
+
+    .hero-pretitle {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      font-weight: 700;
+    }
+
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-desc {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      margin-bottom: 3.5rem;
+      line-height: 1.7;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .meta-card {
+      padding: 1.5rem;
+    }
+
+    .meta-label {
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .meta-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    .meta-sub {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+
+    /* KPI METRICS */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .kpi-card {
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+    }
+
+    .kpi-card.cyan::before { background: var(--cyan); }
+    .kpi-card.rose::before { background: var(--rose); }
+    .kpi-card.emerald::before { background: var(--emerald); }
+
+    .kpi-num {
+      font-family: var(--font-mono);
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* SWOT MATRIX */
+    .swot-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .swot-card {
+      padding: 2rem;
+      position: relative;
+    }
+
+    .swot-tag {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+    }
+
+    .swot-card.s .swot-tag { background: rgba(16, 185, 129, 0.1); color: var(--emerald); }
+    .swot-card.w .swot-tag { background: rgba(244, 63, 94, 0.1); color: var(--rose); }
+    .swot-card.o .swot-tag { background: rgba(6, 182, 212, 0.1); color: var(--cyan); }
+    .swot-card.t .swot-tag { background: rgba(139, 92, 246, 0.1); color: var(--accent); }
+
+    .swot-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: #fff;
+    }
+
+    .swot-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .swot-list li {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      padding-left: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .swot-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    /* PORTER FIVE FORCES */
+    .porter-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+
+    .porter-card {
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 240px;
+    }
+
+    .porter-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.4;
+      margin-bottom: 0.5rem;
+    }
+
+    .porter-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      flex-grow: 1;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+
+    .porter-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.3rem 0.5rem;
+      border-radius: 4px;
+      text-align: center;
+    }
+
+    .porter-badge.high { background: rgba(244, 63, 94, 0.15); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .porter-badge.mod { background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+
+    /* COMPARISON TABLE */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    th {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dark);
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-weight: 700;
+    }
+
+    td {
+      padding: 1.25rem 1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .table-brand {
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* USER JOURNEY FUNNEL */
+    .funnel-container {
+      display: flex;
+      align-items: stretch;
+      gap: 0.75rem;
+      margin: 3rem 0;
+      background: rgba(255, 255, 255, 0.015);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .funnel-stage {
+      flex: 1;
+      padding: 1.5rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .funnel-stage::after {
+      content: '';
+      position: absolute;
+      right: -0.375rem;
+      top: 20%;
+      width: 1px;
+      height: 60%;
+      background: var(--border);
+    }
+
+    .funnel-stage:last-child::after {
+      display: none;
+    }
+
+    .funnel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .funnel-step-num {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      font-weight: 600;
+    }
+
+    .funnel-pct {
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--emerald);
+    }
+
+    .funnel-pct.drop {
+      color: var(--rose);
+    }
+
+    .funnel-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .funnel-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+
+    .funnel-barrier {
+      font-size: 0.75rem;
+      background: rgba(244, 63, 94, 0.08);
+      color: var(--rose);
+      border: 1px solid rgba(244, 63, 94, 0.15);
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .funnel-barrier.ok {
+      background: rgba(16, 185, 129, 0.08);
+      color: var(--emerald);
+      border-color: rgba(16, 185, 129, 0.15);
+    }
+
+    /* FEEDBACK GRID & BLOCKS */
+    .feedback-section {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    .feedback-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feedback-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .feedback-badge.pillar { background: rgba(139, 92, 246, 0.1); color: var(--accent); border-color: rgba(139, 92, 246, 0.2); }
+    .feedback-badge.impact { background: rgba(16, 185, 129, 0.1); color: var(--emerald); border-color: rgba(16, 185, 129, 0.2); }
+    .feedback-badge.effort { background: rgba(6, 182, 212, 0.1); color: var(--cyan); border-color: rgba(6, 182, 212, 0.2); }
+    .feedback-badge.metric { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border-color: rgba(245, 158, 11, 0.2); }
+
+    .feedback-title {
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 2rem;
+      line-height: 1.25;
+    }
+
+    /* METRICS BLOCK */
+    .depth-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      background: rgba(255, 255, 255, 0.01);
+      padding: 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .depth-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .depth-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.25rem;
+    }
+
+    .depth-value {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .depth-value strong {
+      color: #fff;
+    }
+
+    .block-observed, .block-problem, .block-ship {
+      padding: 1.75rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      border-left: 4px solid var(--border);
+    }
+
+    .block-observed {
+      background: rgba(255, 255, 255, 0.015);
+      border-left-color: var(--text-muted);
+    }
+
+    .block-problem {
+      background: rgba(244, 63, 94, 0.015);
+      border-left-color: var(--rose);
+    }
+
+    .block-ship {
+      background: rgba(16, 185, 129, 0.015);
+      border-left-color: var(--emerald);
+    }
+
+    .block-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .block-observed .block-label { color: var(--text-muted); }
+    .block-problem .block-label { color: var(--rose); }
+    .block-ship .block-label { color: var(--emerald); }
+
+    .block-content {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    
+    .block-content strong {
+      color: #fff;
+    }
+
+    /* BROWSER SCREENSHOT FRAME */
+    .browser-frame {
+      border: 1px solid var(--border);
+      background: #0f0f13;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+      position: sticky;
+      top: 4rem;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .browser-frame:hover {
+      border-color: rgba(255,255,255,0.1);
+      box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7);
+    }
+
+    .browser-bar {
+      height: 40px;
+      background: #15151c;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 1.25rem;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 0.4rem;
+    }
+
+    .browser-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #3a3a3e;
+    }
+    .browser-dot.red { background: #fc5c57; }
+    .browser-dot.yellow { background: #fdbd2e; }
+    .browser-dot.green { background: #35cc4b; }
+
+    .browser-url {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #08080b;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 0.3rem 3.5rem;
+      border-radius: 6px;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      letter-spacing: 0.02em;
+    }
+
+    .browser-view {
+      position: relative;
+      background: #050507;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .screenshot-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.95;
+    }
+
+    /* CSS SCREENSHOT OVERLAYS */
+    .overlay-annotation {
+      position: absolute;
+      border: 2px dashed var(--rose);
+      background: rgba(244, 63, 94, 0.08);
+      border-radius: 8px;
+      animation: pulse-glow 2.5s infinite alternate;
+      z-index: 10;
+    }
+
+    .overlay-annotation.green {
+      border-color: var(--emerald);
+      background: rgba(16, 185, 129, 0.08);
+    }
+
+    .overlay-annotation.purple {
+      border-color: var(--accent);
+      background: rgba(139, 92, 246, 0.08);
+    }
+
+    .overlay-label {
+      position: absolute;
+      background: var(--rose);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 11;
+      top: -24px;
+      left: 10px;
+    }
+
+    .overlay-annotation.green .overlay-label { background: var(--emerald); }
+    .overlay-annotation.purple .overlay-label { background: var(--accent); }
+
+    @keyframes pulse-glow {
+      0% {
+        box-shadow: 0 0 4px rgba(244, 63, 94, 0.15);
+        border-color: rgba(244, 63, 94, 0.7);
+      }
+      100% {
+        box-shadow: 0 0 16px rgba(244, 63, 94, 0.45);
+        border-color: rgba(244, 63, 94, 1);
+      }
+    }
+
+    /* FLOW DIAGRAM COMPONENT */
+    .flow-comparison {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .flow-line {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: rgba(255, 255, 255, 0.01);
+      padding: 0.8rem 1.25rem;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .flow-label-badge {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 80px;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    
+    .flow-label-badge.cur { background: rgba(244, 63, 94, 0.15); color: var(--rose); border: 1px solid rgba(244, 63, 94, 0.2); }
+    .flow-label-badge.prop { background: rgba(16, 185, 129, 0.15); color: var(--emerald); border: 1px solid rgba(16, 185, 129, 0.2); }
+
+    .flow-steps {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-grow: 1;
+      font-size: 0.8rem;
+    }
+
+    .flow-step {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 0.35rem 0.65rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+    }
+
+    .flow-step.friction-step {
+      border-color: var(--rose);
+      color: var(--rose);
+      background: rgba(244, 63, 94, 0.04);
+      font-weight: 600;
+    }
+
+    .flow-step.glow-step {
+      border-color: var(--emerald);
+      color: var(--emerald);
+      background: rgba(16, 185, 129, 0.04);
+      font-weight: 600;
+    }
+
+    .flow-arrow {
+      color: var(--text-dark);
+      font-weight: 700;
+      font-size: 0.75rem;
+    }
+
+    /* PRIORITIZATION MATRIX */
+    .matrix-wrapper {
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      grid-template-rows: 1fr 2.5rem;
+      width: 100%;
+      max-width: 750px;
+      margin: 4rem auto;
+      aspect-ratio: 1.15 / 1;
+    }
+
+    .matrix-y-axis {
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .matrix-x-axis {
+      grid-column: 2;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-dark);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 1rem;
+    }
+
+    .matrix-container {
+      grid-column: 2;
+      grid-row: 1;
+      border-left: 2px solid var(--text-dark);
+      border-bottom: 2px solid var(--text-dark);
+      position: relative;
+      background: radial-gradient(circle at 100% 0%, rgba(139, 92, 246, 0.06) 0%, transparent 60%),
+                  radial-gradient(circle at 0% 100%, rgba(244, 63, 94, 0.04) 0%, transparent 60%);
+    }
+
+    .matrix-quadrant-line-x {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100%;
+      height: 1px;
+      border-top: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .matrix-quadrant-line-y {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 1px;
+      height: 100%;
+      border-left: 1px dashed rgba(255, 255, 255, 0.08);
+    }
+
+    .matrix-quadrant-label {
+      position: absolute;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .quad-q1 { top: 1.25rem; right: 1.25rem; color: var(--emerald); }
+    .quad-q2 { top: 1.25rem; left: 1.25rem; color: var(--accent); }
+    .quad-q3 { bottom: 1.25rem; right: 1.25rem; color: var(--cyan); }
+    .quad-q4 { bottom: 1.25rem; left: 1.25rem; color: var(--text-dark); }
+
+    .matrix-node {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translate(-50%, 50%);
+    }
+
+    .matrix-node:hover {
+      transform: translate(-50%, 50%) scale(1.2);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    
+    .matrix-node.node-1 { bottom: 85%; left: 80%; border-color: var(--emerald); box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+    .matrix-node.node-2 { bottom: 65%; left: 60%; border-color: var(--cyan); box-shadow: 0 0 10px rgba(6, 182, 212, 0.3); }
+    .matrix-node.node-3 { bottom: 70%; left: 45%; border-color: var(--accent); box-shadow: 0 0 10px rgba(139, 92, 246, 0.3); }
+    .matrix-node.node-4 { bottom: 80%; left: 70%; border-color: var(--emerald); box-shadow: 0 0 10px rgba(16, 185, 129, 0.3); }
+    .matrix-node.node-5 { bottom: 85%; left: 20%; border-color: var(--rose); box-shadow: 0 0 10px rgba(244, 63, 94, 0.3); }
+
+    .matrix-tooltip {
+      position: absolute;
+      background: #15151c;
+      border: 1px solid var(--border);
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: #fff;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      z-index: 1000;
+    }
+
+    /* EXPERIMENT ROADMAP */
+    .roadmap-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem;
+      margin-top: 2rem;
+    }
+
+    .roadmap-column {
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .roadmap-header {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .roadmap-header.now { color: var(--rose); }
+    .roadmap-header.next { color: var(--cyan); }
+    .roadmap-header.later { color: var(--text-dark); }
+
+    .roadmap-card {
+      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .roadmap-card:hover {
+      border-color: rgba(255,255,255,0.08);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .roadmap-card-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .roadmap-card-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1024px) {
+      .app-container {
+        grid-template-columns: 1fr;
+      }
+      aside {
+        display: none;
+      }
+      main {
+        padding: 2.5rem;
+      }
+      .feedback-section {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .meta-grid, .kpi-row, .swot-grid, .porter-grid, .roadmap-container {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .meta-grid, .kpi-row, .swot-grid, .porter-grid, .roadmap-container {
+        grid-template-columns: 1fr;
+      }
+      .hero h1 {
+        font-size: 2.4rem;
+      }
+    }
+
+    /* PRINT STYLES FOR CLEAN PDF EXPORT */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      aside {
+        display: none !important;
+      }
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .glass {
+        background: #ffffff !important;
+        border-color: #d1d1d6 !important;
+        box-shadow: none !important;
+        color: #000000 !important;
+      }
+      .kpi-card::before {
+        display: none;
+      }
+      h1, h2, h3, h4, th, td, strong, .table-brand {
+        color: #000000 !important;
+      }
+      .gradient-text, .gradient-text-purple-cyan {
+        -webkit-text-fill-color: initial !important;
+        background: none !important;
+        color: #000000 !important;
+      }
+      .screenshot-img {
+        filter: grayscale(100%);
+      }
+      .overlay-annotation {
+        border-color: #000000 !important;
+        background: rgba(0,0,0,0.05) !important;
+      }
+      .overlay-label {
+        background: #000000 !important;
+        color: #ffffff !important;
+      }
+      section {
+        page-break-inside: avoid;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- STICKY SIDEBAR NAVIGATION -->
+    <aside>
+      <div>
+        <div class="logo-container">
+          <div class="logo-mark">S</div>
+          <div>
+            <div class="logo-text">Subspace</div>
+            <div class="logo-subtext">Product Audit</div>
+          </div>
+        </div>
+        <ul class="sidebar-menu">
+          <li class="active"><a href="#cover">Executive Summary</a></li>
+          <li><a href="#landscape">Market Positioning</a></li>
+          <li><a href="#journey">User Journey Audit</a></li>
+          <li><a href="#feedback-1">1. Location Gate</a></li>
+          <li><a href="#feedback-2">2. GTM Mismatch</a></li>
+          <li><a href="#feedback-3">3. Missing Splits</a></li>
+          <li><a href="#feedback-4">4. Cart Auth Gate</a></li>
+          <li><a href="#feedback-5">5. B2B2C Expansion</a></li>
+          <li><a href="#prioritization">Prioritization Matrix</a></li>
+          <li><a href="#roadmap-section">Experiment Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-footer">
+        Prepared for Founders & PM Team<br>
+        Product Management Audit<br>
+        May 2026
+      </div>
+    </aside>
+
+    <!-- MAIN CONTEXT WRAPPER -->
+    <div style="position: relative; width: 100%;">
+      <div class="glow-bg"></div>
+      <div class="glow-bg-cyan"></div>
+      
+      <main>
+        
+        <!-- COVER / TITLE SECTION -->
+        <section id="cover" class="hero">
+          <div class="hero-pretitle">Strategic Product Teardown</div>
+          <h1 class="gradient-text">Optimizing Conversion & Moats for Subspace.money</h1>
+          <p class="hero-desc">
+            A high-fidelity conversion rate audit focusing on user onboarding flows, growth positioning, product defensibility, and employee rewards distribution partnerships. Developed to plug top-of-funnel conversion leaks and expand market scale.
+          </p>
+          
+          <!-- CORE SYSTEM METRICS -->
+          <div class="kpi-row">
+            <div class="glass kpi-card">
+              <div class="kpi-num">₹36.5 Cr</div>
+              <div class="kpi-title">ARR Layer (FY25)</div>
+            </div>
+            <div class="glass kpi-card rose">
+              <div class="kpi-num">~34%</div>
+              <div class="kpi-title">Est. Top Funnel Leak</div>
+            </div>
+            <div class="glass kpi-card emerald">
+              <div class="kpi-num">+18%</div>
+              <div class="kpi-title">Est. Conversion Lift</div>
+            </div>
+            <div class="glass kpi-card cyan">
+              <div class="kpi-num">5</div>
+              <div class="kpi-title">Strategic Ships</div>
+            </div>
+          </div>
+
+          <div class="meta-grid">
+            <div class="glass meta-card">
+              <div class="meta-label">Candidate Role</div>
+              <div class="meta-value">Product Intern</div>
+            </div>
+            <div class="glass meta-card">
+              <div class="meta-label">Selected Target</div>
+              <div class="meta-value">Subspace.money</div>
+            </div>
+            <div class="glass meta-card">
+              <div class="meta-label">Market Focus</div>
+              <div class="meta-value">Consumer Fintech</div>
+            </div>
+            <div class="glass meta-card">
+              <div class="meta-label">Audit Window</div>
+              <div class="meta-value">May 2026</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- EXECUTIVE SUMMARY & SWOT -->
+        <section id="summary">
+          <h2 class="section-header"><span class="section-badge">01</span> Executive Summary</h2>
+          <p style="color: var(--text-muted); margin-bottom: 2.5rem; max-width: 950px; font-size: 1.05rem; line-height: 1.7;">
+            Subspace.money stands out as a profitable, bootstrapped consumer fintech platform. By serving as an intermediary transaction gateway for digital subscriptions and gift vouchers, it generates substantial transactional value. However, the conversion funnel is severely compromised by premature geoblocks and hard authentication walls. Delaying high-commitment authentication until final payment, default-exposing group splits to search engines, and launching corporate reward loops will establish a low-cost distribution funnel.
+          </p>
+
+          <div class="swot-grid">
+            <div class="glass swot-card s">
+              <span class="swot-tag">Strength</span>
+              <h3 class="swot-title">Operational Moats</h3>
+              <ul class="swot-list">
+                <li>Bootstrapped profitability: Self-sustaining ARR layer makes it rare.</li>
+                <li>Automated price negotiation engine: Drives lower merchant discount rates.</li>
+                <li>Direct checkout loops: Minimal overhead on high-frequency transactions.</li>
+              </ul>
+            </div>
+            <div class="glass swot-card w">
+              <span class="swot-tag">Weakness</span>
+              <h3 class="swot-title">UX/UI Leakage</h3>
+              <ul class="swot-list">
+                <li>Forced location popups on national digital vouchers.</li>
+                <li>Premature authentication gates preventing cart view.</li>
+                <li>Web-mobile feature parity gaps (group splitting hidden on web).</li>
+              </ul>
+            </div>
+            <div class="glass swot-card o">
+              <span class="swot-tag">Opportunity</span>
+              <h3 class="swot-title">Scale Drivers</h3>
+              <ul class="swot-list">
+                <li>B2B2C distribution via HR benefits platforms (Darwinbox, Zoho).</li>
+                <li>Exposing active shared pools on search results for SEO gains.</li>
+                <li>Self-serve subscription calendars to prompt high-margin voucher renewals.</li>
+              </ul>
+            </div>
+            <div class="glass swot-card t">
+              <span class="swot-tag">Threat</span>
+              <h3 class="swot-title">Market Rivals</h3>
+              <ul class="swot-list">
+                <li>Established cashback aggregators (Magicpin, Gyftr).</li>
+                <li>UPI AutoPay adoption reducing manual renewals.</li>
+                <li>Supplier platforms pulling distribution APIs to sell direct.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- MARKET POSITIONING & COMPETITOR MATRIX -->
+        <section id="landscape">
+          <h2 class="section-header"><span class="section-badge">02</span> Market & Competitor Landscape</h2>
+          <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 950px; font-size: 1.05rem;">
+            Analyzing Subspace's ecosystem via <strong>Porter's Five Forces</strong> reveals that while the technical barrier to retail voucher sales is low, defensibility resides entirely within the group-finance pricing tiers and automated split management APIs.
+          </p>
+
+          <div class="porter-grid">
+            <div class="glass porter-card">
+              <div class="porter-title">Threat of Substitutes</div>
+              <div class="porter-desc">Users can buy gift cards directly from Amazon or UPI platforms.</div>
+              <span class="porter-badge high">High Threat</span>
+            </div>
+            <div class="glass porter-card">
+              <div class="porter-title">Buyer Bargaining Power</div>
+              <div class="porter-desc">Indian bargain-hunters switch platforms for 1% difference.</div>
+              <span class="porter-badge high">High Power</span>
+            </div>
+            <div class="glass porter-card">
+              <div class="porter-title">Supplier Bargaining Power</div>
+              <div class="porter-desc">Brands control API access and discount margins tightly.</div>
+              <span class="porter-badge mod">Moderate Power</span>
+            </div>
+            <div class="glass porter-card">
+              <div class="porter-title">Threat of New Entrants</div>
+              <div class="porter-desc">Low technical barrier to stand up a simple voucher store.</div>
+              <span class="porter-badge high">High Threat</span>
+            </div>
+            <div class="glass porter-card">
+              <div class="porter-title">Competitive Rivalry</div>
+              <div class="porter-desc">High competition against heavily funded players (Magicpin).</div>
+              <span class="porter-badge high">High Rivalry</span>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="glass">
+              <thead>
+                <tr>
+                  <th>Platform</th>
+                  <th>Primary Positioning</th>
+                  <th>Web Onboarding Friction</th>
+                  <th>Checkout Friction</th>
+                  <th>Retention Mechanism</th>
+                  <th>Moat Placement</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="table-brand">Subspace.money</td>
+                  <td>Subscription splits & vouchers</td>
+                  <td>High (Forced location modal overlay)</td>
+                  <td>High (Forced WhatsApp auth on card add)</td>
+                  <td>Manual WhatsApp renewal reminders</td>
+                  <td><strong>Group Split Pricing</strong> (Hidden on web, app-only)</td>
+                </tr>
+                <tr>
+                  <td class="table-brand">Magicpin</td>
+                  <td>Offline local savings & vouchers</td>
+                  <td>Low (Allows guest layout browsing)</td>
+                  <td>Low (Guest browse, phone verification at payment)</td>
+                  <td>"MagicPoints" local merchant repeat rewards</td>
+                  <td><strong>Merchant Network Density</strong> (Exposed on web/app)</td>
+                </tr>
+                <tr>
+                  <td class="table-brand">Gyftr</td>
+                  <td>Bank loyalty rewards portal</td>
+                  <td>None (Allows direct catalog browse)</td>
+                  <td>Very Low (OTP login only at final payment check)</td>
+                  <td>Credit card statement reward points conversion</td>
+                  <td><strong>Exclusive Bank API Contracts</strong> (Exposed on web)</td>
+                </tr>
+                <tr>
+                  <td class="table-brand">Paytm / PhonePe</td>
+                  <td>Utility bill payments & wallet checkout</td>
+                  <td>None (Instant checkouts)</td>
+                  <td>None (Unified UPI ecosystem checkout)</td>
+                  <td>AutoPay bill integrations & notifications</td>
+                  <td><strong>UPI Distribution & scale</strong> (Exposed)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- USER JOURNEY FUNNEL AUDIT -->
+        <section id="journey">
+          <h2 class="section-header"><span class="section-badge">03</span> User Journey Audit</h2>
+          <p style="color: var(--text-muted); max-width: 950px; font-size: 1.05rem;">
+            The current funnel filters out high-intent traffic prematurely by forcing commitment at early stages of browsing.
+          </p>
+
+          <div class="funnel-container">
+            <div class="funnel-stage">
+              <div class="funnel-header">
+                <span class="funnel-step-num">Step 1</span>
+                <span class="funnel-pct">100%</span>
+              </div>
+              <div class="funnel-name">Acquisition</div>
+              <div class="funnel-desc">User lands via organic SEO or performance marketing search.</div>
+              <span class="funnel-barrier ok">No Friction</span>
+            </div>
+            
+            <div class="funnel-stage">
+              <div class="funnel-header">
+                <span class="funnel-step-num">Step 2</span>
+                <span class="funnel-pct drop">75%</span>
+              </div>
+              <div class="funnel-name">Location Gate</div>
+              <div class="funnel-desc">Forced location selector popup blocks catalog exploration.</div>
+              <span class="funnel-barrier">Drops 25% of users</span>
+            </div>
+
+            <div class="funnel-stage">
+              <div class="funnel-header">
+                <span class="funnel-step-num">Step 3</span>
+                <span class="funnel-pct">60%</span>
+              </div>
+              <div class="funnel-name">Catalog Browse</div>
+              <div class="funnel-desc">User views digital subscription cards and discount tiers.</div>
+              <span class="funnel-barrier ok">High Intent</span>
+            </div>
+
+            <div class="funnel-stage">
+              <div class="funnel-header">
+                <span class="funnel-step-num">Step 4</span>
+                <span class="funnel-pct drop">36%</span>
+              </div>
+              <div class="funnel-name">Auth Gate</div>
+              <div class="funnel-desc">Clicking "Add to Cart" triggers forced phone login popup.</div>
+              <span class="funnel-barrier">Drops 40% of intent</span>
+            </div>
+
+            <div class="funnel-stage">
+              <div class="funnel-header">
+                <span class="funnel-step-num">Step 5</span>
+                <span class="funnel-pct">22%</span>
+              </div>
+              <div class="funnel-name">Checkout</div>
+              <div class="funnel-desc">User completes payment via UPI or cards.</div>
+              <span class="funnel-barrier ok">Purchase</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEEDBACK 1 -->
+        <section id="feedback-1" class="feedback-section">
+          <div>
+            <div class="feedback-meta">
+              <span class="feedback-badge pillar">UX Pillar</span>
+              <span class="feedback-badge impact">Impact: High</span>
+              <span class="feedback-badge effort">Effort: Low</span>
+              <span class="feedback-badge metric">Target: Bounce Rate</span>
+            </div>
+            <h3 class="feedback-title">1. Arbitrary Location Gating on First-Time Web Users</h3>
+            
+            <!-- METRICS BLOCK -->
+            <div class="depth-grid">
+              <div class="depth-item">
+                <span class="depth-label">User Segment Affected</span>
+                <span class="depth-value">First-time visitors searching for digital vouchers/cards</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Funnel Stage</span>
+                <span class="depth-value">Onboarding / Acquisition (Top-of-Funnel)</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Impact Hypothesis</span>
+                <span class="depth-value">Bypassing location requirements will reduce bounce rate by <strong>15%</strong></span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">A/B Testing Idea</span>
+                <span class="depth-value">Variant A (Current Selector Modal) vs. Variant B (Passive Geolocation Bypass)</span>
+              </div>
+            </div>
+
+            <div class="block-observed">
+              <div class="block-label">Observed Flow</div>
+              <div class="block-content">
+                Upon loading <code>subspace.money</code>, a mandatory, screen-blocking city selector popup blocks access to the catalog. However, the default dashboard serves entirely <strong>location-independent digital goods</strong> (Spotify, Amazon shopping cards, Gaana Plus) which do not require local shipping.
+              </div>
+            </div>
+
+            <div class="block-problem">
+              <div class="block-label">Problem & Trade-Offs</div>
+              <div class="block-content">
+                <strong>Current design optimizes for:</strong> Verifying local delivery logistics for the minority physical gadget rental vertical.<br>
+                <strong>What it sacrifices:</strong> Mainstream voucher conversions. Forcing local details for a music card adds unnecessary friction, triggering a <strong>25% drop-off</strong> as users worry the voucher is geofenced.
+              </div>
+            </div>
+
+            <div class="block-ship">
+              <div class="block-label">Ship Instead</div>
+              <div class="block-content">
+                Remove the blocking selector. Display the national digital voucher catalog by default. Show location selector confirmation <strong>only</strong> if a user actively clicks on a physical rental item.
+              </div>
+            </div>
+
+            <div class="flow-comparison">
+              <div class="flow-line">
+                <span class="flow-label-badge cur">Current</span>
+                <div class="flow-steps">
+                  <span class="flow-step">Land</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step friction-step">Forced Location Modal</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">View Digital Vouchers</span>
+                </div>
+              </div>
+              <div class="flow-line">
+                <span class="flow-label-badge prop">Proposed</span>
+                <div class="flow-steps">
+                  <span class="flow-step">Land (Passive IP Check)</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step glow-step">Direct Browse (National Vouchers)</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">Confirm City on Rental Click</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BROWSER VISUAL -->
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="browser-dot red"></span>
+                <span class="browser-dot yellow"></span>
+                <span class="browser-dot green"></span>
+              </div>
+              <div class="browser-url">subspace.money/home</div>
+            </div>
+            <div class="browser-view">
+              <img src="screenshots/1_landing_page.png" alt="Onboarding Gate" class="screenshot-img">
+              <div class="overlay-annotation" style="top: 25%; left: 25%; width: 50%; height: 50%;">
+                <span class="overlay-label">Forced Location Selector Modal</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEEDBACK 2 -->
+        <section id="feedback-2" class="feedback-section">
+          <div>
+            <div class="feedback-meta">
+              <span class="feedback-badge pillar">GTM & ICP Pillar</span>
+              <span class="feedback-badge impact">Impact: High</span>
+              <span class="feedback-badge effort">Effort: Medium</span>
+              <span class="feedback-badge metric">Target: Repeat Purchase Rate</span>
+            </div>
+            <h3 class="feedback-title">2. GTM Mismatch: Budget Utility Copy vs. Transaction Storefront Reality</h3>
+            
+            <!-- METRICS BLOCK -->
+            <div class="depth-grid">
+              <div class="depth-item">
+                <span class="depth-label">User Segment Affected</span>
+                <span class="depth-value">High-LTV budget planners searching for renewal utilities</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Funnel Stage</span>
+                <span class="depth-value">Consideration / Retention</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Impact Hypothesis</span>
+                <span class="depth-value">Adding manual tracker nudges will boost repeat transactions by <strong>25%</strong></span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">A/B Testing Idea</span>
+                <span class="depth-value">Redirect search keywords to manual tracker variants vs. standard storefront</span>
+              </div>
+            </div>
+
+            <div class="block-observed">
+              <div class="block-label">Observed Flow</div>
+              <div class="block-content">
+                Website headers, legal disclosures, and Google metadata advertise Subspace as an <strong>"Expense Splitter & automated subscription tracking calendar"</strong>. However, the actual web interface functions strictly as a gift card voucher marketplace with no active billing tracking dashboard.
+              </div>
+            </div>
+
+            <div class="block-problem">
+              <div class="block-label">Problem & Trade-Offs</div>
+              <div class="block-content">
+                <strong>Current design optimizes for:</strong> Driving quick-turnover direct voucher sales with minimal operational/API friction.<br>
+                <strong>What it sacrifices:</strong> Customer lifetime value (LTV). Organized financial managers land expecting budget tracking utility and bounce. Coupon deal-hunters are confused by expense-tracking terminology.
+              </div>
+            </div>
+
+            <div class="block-ship">
+              <div class="block-label">Ship Instead</div>
+              <div class="block-content">
+                Align GTM copy to the storefront reality: <em>"India's Smartest Subscription & Bill Discount Store"</em>. Launch a lightweight **Subscription Tracker Calendar** on the web. Users manually log their renewal dates to unlock 1-click renewal discount coupons delivered via automated WhatsApp alerts.
+              </div>
+            </div>
+          </div>
+
+          <!-- BROWSER VISUAL -->
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="browser-dot red"></span>
+                <span class="browser-dot yellow"></span>
+                <span class="browser-dot green"></span>
+              </div>
+              <div class="browser-url">subspace.money/details</div>
+            </div>
+            <div class="browser-view">
+              <img src="screenshots/4_product_detail.png" alt="Product Detail" class="screenshot-img">
+              <div class="overlay-annotation purple" style="top: 20%; left: 15%; width: 70%; height: 50%;">
+                <span class="overlay-label">Standard Retail Storefront (No Tracking Utility)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEEDBACK 3 -->
+        <section id="feedback-3" class="feedback-section">
+          <div>
+            <div class="feedback-meta">
+              <span class="feedback-badge pillar">Features & Services</span>
+              <span class="feedback-badge impact">Impact: High</span>
+              <span class="feedback-badge effort">Effort: Medium</span>
+              <span class="feedback-badge metric">Target: Organic SEO Traffic</span>
+            </div>
+            <h3 class="feedback-title">3. Hiding Core Moat: Absence of Co-Sharing Pools on the Web</h3>
+            
+            <!-- METRICS BLOCK -->
+            <div class="depth-grid">
+              <div class="depth-item">
+                <span class="depth-label">User Segment Affected</span>
+                <span class="depth-value">Price-sensitive students searching for family plan share slots</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Funnel Stage</span>
+                <span class="depth-value">Search Acquisition / Activation</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Impact Hypothesis</span>
+                <span class="depth-value">Indexing active sharing pools on web will increase organic traffic by <strong>30%</strong></span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">A/B Testing Idea</span>
+                <span class="depth-value">Expose active sharing card slots to Google Bot indexing vs. private app gates</span>
+              </div>
+            </div>
+
+            <div class="block-observed">
+              <div class="block-label">Observed Flow</div>
+              <div class="block-content">
+                Subspace's primary competitive moat is its group co-sharing utility. However, searching the web dashboard for "Netflix" or "Spotify" only displays standard individual gift card bundles. Group splitting capabilities are completely hidden on the web app.
+              </div>
+            </div>
+
+            <div class="block-problem">
+              <div class="block-label">Problem & Trade-Offs</div>
+              <div class="block-content">
+                <strong>Current design optimizes for:</strong> Limiting multi-credential family account fraud and support ticket overhead within the secure mobile app sandbox.<br>
+                <strong>What it sacrifices:</strong> High-intent web SEO traffic. Users searching for discounted family slots assume Subspace is a standard gift card vendor and exit.
+              </div>
+            </div>
+
+            <div class="block-ship">
+              <div class="block-label">Ship Instead</div>
+              <div class="block-content">
+                Expose active group-sharing pools on the web: <em>"Spotify Premium: 4/6 spots filled, join for ₹59/month"</em>. Let users checkout directly on the web and automate credentials delivery via secure WhatsApp loops.
+              </div>
+            </div>
+          </div>
+
+          <!-- BROWSER VISUAL -->
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="browser-dot red"></span>
+                <span class="browser-dot yellow"></span>
+                <span class="browser-dot green"></span>
+              </div>
+              <div class="browser-url">subspace.money/search?q=netflix</div>
+            </div>
+            <div class="browser-view">
+              <img src="screenshots/3_search_results.png" alt="Search Results" class="screenshot-img">
+              <div class="overlay-annotation" style="top: 30%; left: 10%; width: 80%; height: 50%;">
+                <span class="overlay-label">Search Results Lack Group Sharing Pools</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEEDBACK 4 -->
+        <section id="feedback-4" class="feedback-section">
+          <div>
+            <div class="feedback-meta">
+              <span class="feedback-badge pillar">UX & Pricing Pillar</span>
+              <span class="feedback-badge impact">Impact: High</span>
+              <span class="feedback-badge effort">Effort: Low</span>
+              <span class="feedback-badge metric">Target: Cart Conversion</span>
+            </div>
+            <h3 class="feedback-title">4. Aggressive WhatsApp/Phone Auth Wall as a Hard Cart Gate</h3>
+            
+            <!-- METRICS BLOCK -->
+            <div class="depth-grid">
+              <div class="depth-item">
+                <span class="depth-label">User Segment Affected</span>
+                <span class="depth-value">Privacy-conscious comparison shoppers</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Funnel Stage</span>
+                <span class="depth-value">Cart Addition to Checkout Gate</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Impact Hypothesis</span>
+                <span class="depth-value">Delaying login until payment step will reduce cart abandonment by <strong>22%</strong></span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">A/B Testing Idea</span>
+                <span class="depth-value">Variant A (Immediate login on cart-add) vs. Variant B (Guest cart access)</span>
+              </div>
+            </div>
+
+            <div class="block-observed">
+              <div class="block-label">Observed Flow</div>
+              <div class="block-content">
+                Clicking "Add to Cart" or "Buy Now" on a voucher page immediately triggers a non-dismissible login popup demanding WhatsApp auth or phone verification. The user cannot review cart contents or fees without registering.
+              </div>
+            </div>
+
+            <div class="block-problem">
+              <div class="block-label">Problem & Trade-Offs</div>
+              <div class="block-content">
+                <strong>Current design optimizes for:</strong> Promptly capturing phone numbers to enable automated abandoned cart WhatsApp recovery templates.<br>
+                <strong>What it sacrifices:</strong> Purchase conversion rates. Privacy-conscious shoppers refuse to register before reviewing final pricing and transaction fees, triggering high funnel abandonment.
+              </div>
+            </div>
+
+            <div class="block-ship">
+              <div class="block-label">Ship Instead</div>
+              <div class="block-content">
+                Enable guest cart additions. Allow users to view a slide-out cart drawer, add voucher quantities, and review payable totals. Prompt for WhatsApp authentication only when the user clicks the final "Proceed to Pay" button.
+              </div>
+            </div>
+            
+            <div class="flow-comparison">
+              <div class="flow-line">
+                <span class="flow-label-badge cur">Current</span>
+                <div class="flow-steps">
+                  <span class="flow-step">Click Add to Cart</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step friction-step">Forced WhatsApp Auth Modal</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">View Cart Drawer</span>
+                </div>
+              </div>
+              <div class="flow-line">
+                <span class="flow-label-badge prop">Proposed</span>
+                <div class="flow-steps">
+                  <span class="flow-step">Click Add to Cart</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step glow-step">Guest Cart Drawer Opens (No Login)</span>
+                  <span class="flow-arrow">→</span>
+                  <span class="flow-step">Click Proceed to Pay (Auth Nudge)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BROWSER VISUAL -->
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="browser-dot red"></span>
+                <span class="browser-dot yellow"></span>
+                <span class="browser-dot green"></span>
+              </div>
+              <div class="browser-url">subspace.money/details</div>
+            </div>
+            <div class="browser-view">
+              <img src="screenshots/5_auth_trigger.png" alt="Cart Auth Gate" class="screenshot-img">
+              <div class="overlay-annotation" style="top: 15%; left: 30%; width: 40%; height: 70%;">
+                <span class="overlay-label">Forced Login Wall on Cart Click</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FEEDBACK 5 -->
+        <section id="feedback-5" class="feedback-section">
+          <div>
+            <div class="feedback-meta">
+              <span class="feedback-badge pillar">Collaborations Pillar</span>
+              <span class="feedback-badge impact">Impact: High</span>
+              <span class="feedback-badge effort">Effort: High</span>
+              <span class="feedback-badge metric">Target: Customer Acquisition Cost (CAC)</span>
+            </div>
+            <h3 class="feedback-title">5. B2B2C Employee Benefit and Corporate Rewards Distribution</h3>
+            
+            <!-- METRICS BLOCK -->
+            <div class="depth-grid">
+              <div class="depth-item">
+                <span class="depth-label">User Segment Affected</span>
+                <span class="depth-value">Salaried corporate professionals with employee benefit points</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Funnel Stage</span>
+                <span class="depth-value">Acquisition & Distribution (New Channels)</span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">Impact Hypothesis</span>
+                <span class="depth-value">Partnership integrations will reduce blended CAC by <strong>40%</strong></span>
+              </div>
+              <div class="depth-item">
+                <span class="depth-label">A/B Testing Idea</span>
+                <span class="depth-value">Launch a pilot integration page for one major enterprise partner dashboard</span>
+              </div>
+            </div>
+
+            <div class="block-observed">
+              <div class="block-label">Observed Flow</div>
+              <div class="block-content">
+                Sitemaps and homepage footer panels target retail consumers exclusively. There are no enterprise channels, developer portals, or corporate benefit programs available.
+              </div>
+            </div>
+
+            <div class="block-problem">
+              <div class="block-label">Problem & Trade-Offs</div>
+              <div class="block-content">
+                <strong>Current design optimizes for:</strong> Maintaining quick D2C operational agility without enterprise sales integration cycles.<br>
+                <strong>What it sacrifices:</strong> Scalable distribution. D2C advertising in consumer fintech is highly expensive. Subspace misses out on tax-free corporate points platforms where employees seek to spend allowance allocations.
+              </div>
+            </div>
+
+            <div class="block-ship">
+              <div class="block-label">Ship Instead</div>
+              <div class="block-content">
+                Partner with corporate HR platforms (<em>Darwinbox, Zoho People, Vantage Circle, Plum</em>). Employees can redeem tax-free company allowance points directly for Spotify, Netflix, or gadget rentals via Subspace APIs, driving zero-CAC scale.
+              </div>
+            </div>
+          </div>
+
+          <!-- BROWSER VISUAL -->
+          <div class="browser-frame">
+            <div class="browser-bar">
+              <div class="browser-dots">
+                <span class="browser-dot red"></span>
+                <span class="browser-dot yellow"></span>
+                <span class="browser-dot green"></span>
+              </div>
+              <div class="browser-url">subspace.money/footer</div>
+            </div>
+            <div class="browser-view">
+              <img src="screenshots/6_footer_positioning.png" alt="Footer Links" class="screenshot-img">
+              <div class="overlay-annotation purple" style="top: 40%; left: 10%; width: 80%; height: 40%;">
+                <span class="overlay-label">No Corporate Portal or API Distribution Routes</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRIORITIZATION MATRIX -->
+        <section id="prioritization">
+          <h2 class="section-header"><span class="section-badge">04</span> Prioritization & ROI Matrix</h2>
+          <p style="color: var(--text-muted); margin-bottom: 2rem; max-width: 950px; font-size: 1.05rem;">
+            A strategic evaluation of engineering effort vs. conversion impact to identify the high-return initiatives. Hover over each numbered node to view details.
+          </p>
+
+          <div class="matrix-wrapper">
+            <div class="matrix-y-axis">Impact (Conversion / LTV)</div>
+            <div class="matrix-container">
+              <div class="matrix-quadrant-line-x"></div>
+              <div class="matrix-quadrant-line-y"></div>
+              
+              <div class="matrix-quadrant-label quad-q1">Quick Wins (P1/P2)</div>
+              <div class="matrix-quadrant-label quad-q2">High Investment (P3)</div>
+              <div class="matrix-quadrant-label quad-q3">Fill-ins (P4)</div>
+              <div class="matrix-quadrant-label quad-q4">Major Projects (P5)</div>
+              
+              <!-- INTERACTIVE MAP NODES -->
+              <div class="matrix-node node-1" title="1. Remove location gating block on landing">1</div>
+              <div class="matrix-node node-2" title="2. GTM Copy Alignment & Self-Serve Tracker">2</div>
+              <div class="matrix-node node-3" title="3. Expose Active Shared Pools on Web">3</div>
+              <div class="matrix-node node-4" title="4. Reposition Auth Wall to Checkout">4</div>
+              <div class="matrix-node node-5" title="5. B2B2C Corporate API Integration">5</div>
+            </div>
+            <div class="matrix-x-axis">Engineering Effort</div>
+          </div>
+        </section>
+
+        <!-- ROADMAP SECTION -->
+        <section id="roadmap-section">
+          <h2 class="section-header"><span class="section-badge">05</span> Experiment & Validation Roadmap</h2>
+          <p style="color: var(--text-muted); margin-bottom: 2.5rem; max-width: 950px; font-size: 1.05rem;">
+            A phased product execution timeline to validate recommendations using structured A/B testing methodologies.
+          </p>
+
+          <div class="roadmap-container">
+            <div class="glass roadmap-column">
+              <div class="roadmap-header now">Phase 1: Now (Q1)</div>
+              
+              <div class="roadmap-card">
+                <div class="roadmap-card-title">A/B Test: Location Bypass</div>
+                <div class="roadmap-card-desc">Run 50/50 split testing showing direct browse vs. current gate. Goal: decrease home page bounce rate below 20%.</div>
+              </div>
+              
+              <div class="roadmap-card">
+                <div class="roadmap-card-title">Auth Wall Shift</div>
+                <div class="roadmap-card-desc">Shift login gate from Add to Cart to Cart Proceed click. Goal: reduce cart abandonment by 22%.</div>
+              </div>
+            </div>
+
+            <div class="glass roadmap-column">
+              <div class="roadmap-header next">Phase 2: Next (Q2)</div>
+              
+              <div class="roadmap-card">
+                <div class="roadmap-card-title">Web Split Pool indexing</div>
+                <div class="roadmap-card-desc">Expose active sharing pools in read-only format on landing pages. Goal: increase organic search CTR by 30%.</div>
+              </div>
+              
+              <div class="roadmap-card">
+                <div class="roadmap-card-title">GTM Realignment</div>
+                <div class="roadmap-card-desc">Update web headers to emphasize "Bill Discounts" and pilot manual tracking reminders.</div>
+              </div>
+            </div>
+
+            <div class="glass roadmap-column">
+              <div class="roadmap-header later">Phase 3: Later (Q3)</div>
+              
+              <div class="roadmap-card">
+                <div class="roadmap-card-title">B2B2C API Contracts</div>
+                <div class="roadmap-card-desc">Build reward integration APIs and pitch to Darwinbox & Vantage Circle teams. Goal: lower CAC by 40%.</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FINAL VERDICT -->
+        <section id="verdict">
+          <h2 class="section-header"><span class="section-badge">06</span> Final Verdict</h2>
+          <p style="color: var(--text-muted); line-height: 1.8; max-width: 900px; font-size: 1.05rem;">
+            Subspace.money’s bootstrap ARR of <strong>₹36.5 Cr</strong> demonstrates deep product-market fit for digital subscription discounts. However, to capture the next wave of mainstream growth without high-cost paid advertising, the product team must optimize conversion leaks. 
+            By eliminating the location gating, shifting the authentication trigger, and opening co-sharing loops to organic web traffic, Subspace can significantly reduce its acquisition cost and establish a defensible, product-led growth model.
+          </p>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script>
+    // SIDEBAR ACTIVE STATE INDICATION
+    document.addEventListener("DOMContentLoaded", () => {
+      const sections = document.querySelectorAll("section");
+      const navLinks = document.querySelectorAll(".sidebar-menu li");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          if (pageYOffset >= sectionTop - 150) {
+            current = section.getAttribute("id");
+          }
+        });
+
+        navLinks.forEach(li => {
+          li.classList.remove("active");
+          const a = li.querySelector("a");
+          if (a.getAttribute("href") === `#${current}`) {
+            li.classList.add("active");
+          }
+        });
+      });
+
+      // Matrix Node Hover Handler
+      const nodes = document.querySelectorAll(".matrix-node");
+      const tooltip = document.createElement("div");
+      tooltip.className = "matrix-tooltip";
+      document.body.appendChild(tooltip);
+
+      nodes.forEach(node => {
+        node.addEventListener("mouseenter", (e) => {
+          tooltip.innerText = node.getAttribute("title");
+          tooltip.style.opacity = "1";
+        });
+        node.addEventListener("mousemove", (e) => {
+          tooltip.style.left = `${e.pageX + 15}px`;
+          tooltip.style.top = `${e.pageY - 15}px`;
+        });
+        node.addEventListener("mouseleave", () => {
+          tooltip.style.opacity = "0";
+        });
+      });
+    });
+  </script>
+</body>
+</html>

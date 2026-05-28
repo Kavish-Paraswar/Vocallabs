@@ -1,0 +1,96 @@
+Product Intern Assignment
+Vocallabs.ai  ·  Subspace.money
+DEADLINE
+31 May 2026
+11:59 PM IST
+Market Research
+Data Analysis
+Competitor
+Research
+Product
+Management
+Problem Solving
+Vocallabs.ai
+AI voice agents automating business calls with human-like fluency
+FEATURES
+ AI voice agents for sales, support & booking —
+natural, unscripted flows
+ Intelligent Call Flow Builder for customizable AI call
+scripts
+ SDK, n8n node & Chrome extension for workflow
+automation
+ Hybrid model: seamless AI ↔ live agent transitions
+ Voice analytics: emotion, intent & tone beyond
+transcription
+MOATS
+ Full-stack ownership: design → execution →
+analytics
+ India-first: tuned for local languages, accents &
+workflows
+ Founder conviction: Joey Dash goes all-in
+post-Subspace
+ Data flywheel: proprietary conversation intelligence
+at scale
+Subspace.money
+Subscribe to anything, delivered in minutes — Subscriptions · Sharing · Rentals
+FEATURES
+ Subscription mgmt, group finance, bill splitting &
+expense tracking
+ Auto-detection & categorization of recurring
+payments via API
+ Bill payments, digital subscriptions, gift cards —
+Android / iOS / Web
+ 90%+ ops powered by autonomous AI agents
+ India's first subscription marketplace for local
+providers
+MOATS
+ Bootstrapped & profitable — rare in consumer
+fintech
+ Network effects: group sharing gets stickier with
+more users
+ Negotiate API: automated price negotiation = hard
+to replicate
+ AI-native ops: structurally lower costs at scale
+ Rs.36.5 Cr ARR (FY25) with zero external funding
+THE TASK
+Pick one of the two companies. Deliver a product teardown — your 5 sharpest feedbacks across the Product
+Pillars below. This is not a filter exercise; whoever joins owns and executes these from Day 1.
+
+GTM & ICPs
+ Competitor Analysis
+ Features / Services
+ UX
+ Potential
+Collaborations
+Use SWOT / 7Ps / Porter's Five Forces or any framework at your disposal.
+Structure each feedback:
+(a) Observed
+What you actually saw in the app / website / flow
+(b) Problem
+Why it matters — the real user or business pain
+(c) Ship instead
+Your specific, actionable solution
+HOW WE'LL EVALUATE
+MOVES FORWARD
+DOESN'T MOVE FORWARD
+Real, non-obvious observation    Specific
+screens/copy/flows    Tradeoff thinking    Clear
+observation→problem→solution chain  
+ Prioritisation logic
+Generic feedback ("improve UX", "add
+gamification")    All 5 in one area    Features
+without an observed problem    Obvious signs the
+app wasn't used    Polished but shallow
+ We don't care about CV brand. We care whether you used the app, thought hard, and can communicate it clearly.
+NEXT STEPS
+ 1
+Go through the Website and Apps — use it like a real customer.
+ 2
+Attach supporting docs, slides, screenshots, or walkthroughs in your report.
+ 3
+Feel free to use Gen AI tools — but keep your feedback authentic, research-backed, and make sure you
+distinguish yourself from other applicants.
+ 4
+Deadline: Sunday, 31 May 2026, 11:59 PM IST
+Vocallabs.ai  ·  Subspace.money
+Product Intern Assignment  ·  2026
